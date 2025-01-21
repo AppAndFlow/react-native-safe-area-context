@@ -135,6 +135,12 @@
     "android": {
       "javaPackageName": "com.th3rdwave.safeareacontext"
     },
+    "ios": {
+      "componentProvider": {
+        "RNCSafeAreaProvider": "RNCSafeAreaProviderComponentView",
+        "RNCSafeAreaView": "RNCSafeAreaViewComponentView"
+      }
+    },
     "name": "safeareacontext",
     "type": "all",
     "jsSrcsDir": "./src/specs"
