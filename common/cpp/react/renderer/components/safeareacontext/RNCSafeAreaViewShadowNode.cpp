@@ -16,10 +16,10 @@ inline Style::Length valueFromEdges(
     Style::Length edge,
     Style::Length axis,
     Style::Length defaultValue) {
-  if (edge.unit() != Unit::Undefined) {
+  if (!edge.isUndefined()) {
     return edge;
   }
-  if (axis.unit() != Unit::Undefined) {
+  if (!axis.isUndefined()) {
     return axis;
   }
   return defaultValue;
