@@ -1,0 +1,75 @@
+---
+sidebar_position: 5
+title: Testing
+sidebar_label: Testing
+---
+
+### Built in mocks
+
+This library includes a built in mock for Jest. It will use the following metrics by default:
+
+```tsx
+{
+  frame: {
+    width: 320,
+    height: 640,
+    x: 0,
+    y: 0,
+  },
+  insets: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+  },
+}
+```
+
+To use it, add the following code to the jest setup file:
+
+```tsx
+import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock';
+
+jest.mock('react-native-safe-area-context', () => mockSafeAreaContext);
+```
+
+To have more control over the test values it is also possible to pass `initialMetrics` to
+`SafeAreaProvider` to provide mock data for frame and insets.
+
+```tsx
+export function TestSafeAreaProvider({ children }) {
+  return (
+    <SafeAreaProvider
+      initialMetrics={{
+        frame: { x: 0, y: 0, width: 0, height: 0 },
+        insets: { top: 0, left: 0, right: 0, bottom: 0 },
+      }}
+    >
+      {children}
+    </SafeAreaProvider>
+  );
+}
+```
+
+### Enabling Babel Parsing for Modules
+
+While trying to use this mock, a frequently encountered error is:
+
+```tsx
+SyntaxError: Cannot use import statement outside a module.
+```
+
+This issue arises due to the use of the import statement. To resolve it, you need to permit Babel to parse the file.
+
+By default, [Jest does not parse files located within the node_modules folder](https://jestjs.io/docs/configuration#transformignorepatterns-arraystring).
+
+However, you can modify this behavior as outlined in the Jest documentation on [`transformIgnorePatterns` customization](https://jestjs.io/docs/tutorial-react-native#transformignorepatterns-customization).
+If you're using a preset, like the one from [react-native](https://github.com/facebook/react-native/blob/main/packages/react-native/jest-preset.js), you should update your Jest configuration to include `react-native-safe-area-context` as shown below:
+
+```tsx
+transformIgnorePatterns: [
+  'node_modules/(?!((jest-)?react-native|@react-native(-community)?|react-native-safe-area-context)/)',
+];
+```
+
+This adjustment ensures Babel correctly parses modules, avoiding the aforementioned syntax error.

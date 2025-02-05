@@ -1,0 +1,32 @@
+---
+sidebar_position: 4
+title: Optimizations
+sidebar_label: Optimizations
+---
+
+### Web SSR
+
+If you are doing server side rendering on the web you can use `initialMetrics` to inject insets and frame value based on the device the user has, or simply pass zero values. Since insets measurement is async it will break rendering your page content otherwise.
+
+### SafeAreaView
+
+If you can, use `SafeAreaView`. It's implemented natively so when rotating the device, there is no delay from the asynchronous bridge.
+
+### initialWindowMetrics
+
+To speed up the initial render, you can import `initialWindowMetrics` from this package and set as the `initialMetrics` prop on the provider as described in Web SSR. You cannot do this if your provider remounts, or you are using `react-native-navigation`.
+
+```tsx
+import {
+  SafeAreaProvider,
+  initialWindowMetrics,
+} from 'react-native-safe-area-context';
+
+function App() {
+  return (
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      ...
+    </SafeAreaProvider>
+  );
+}
+```

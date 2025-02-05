@@ -1,0 +1,57 @@
+---
+sidebar_position: 2
+title: SafeAreaView
+sidebar_label: SafeAreaView
+---
+
+`SafeAreaView` is a regular `View` component with the safe area insets applied as padding or margin.
+
+Padding or margin styles are added to the insets, for example `style={{paddingTop: 10}}` on a `SafeAreaView` that has insets of 20 will result in a top padding of 30.
+
+### Example
+
+```tsx
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+function SomeComponent() {
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'red' }}>
+      <View style={{ flex: 1, backgroundColor: 'blue' }} />
+    </SafeAreaView>
+  );
+}
+```
+
+### Props
+
+Accepts all [View](https://reactnative.dev/docs/view#props) props.
+
+#### `edges`
+
+Optional, array of `top`, `right`, `bottom`, and `left`. Defaults to all.
+
+Sets the edges to apply the safe area insets to.
+
+For example if you don't want insets to apply to the top edge because the view does not touch the top of the screen you can use:
+
+```tsx
+<SafeAreaView edges={['right', 'bottom', 'left']} />
+```
+
+Optionally it can be set to an object `{ top?: EdgeMode, right?: EdgeMode, bottom?: EdgeMode, left?: EdgeMode }` where `EdgeMode = 'off' | 'additive' | 'maximum'`. Additive is a default mode and is the same as passing and edge in the array: `finalPadding = safeArea + padding`. Maximum mode will use safe area inset or padding/margin (depends on `mode`) if safe area is less: `finalPadding = max(safeArea, padding)`. For example if you want a floating UI element that should be at the bottom safe area edge on devices with safe area or 24px from the bottom of the screen on devices without safe area or if safe area is less than 24px:
+
+```tsx
+<SafeAreaView style={{paddingBottom: 24}} edges={{bottom: 'maximum'}} />
+```
+
+#### `mode`
+
+Optional, `padding` (default) or `margin`.
+
+Apply the safe area to either the padding or the margin.
+
+This can be useful for example to create a safe area aware separator component:
+
+```tsx
+<SafeAreaView mode="margin" style={{ height: 1, backgroundColor: '#eee' }} />
+```

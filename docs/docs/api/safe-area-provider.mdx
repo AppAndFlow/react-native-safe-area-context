@@ -1,0 +1,29 @@
+---
+sidebar_position: 1
+title: SafeAreaProvider
+sidebar_label: SafeAreaProvider
+---
+
+You should add `SafeAreaProvider` in your app root component. You may need to add it in other places like the root of modals and routes when using [`react-native-screens`](https://github.com/software-mansion/react-native-screens).
+
+Note that providers should not be inside a `View` that is animated with `Animated` or inside a `ScrollView` since it can cause very frequent updates.
+
+### Example
+
+```tsx
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+function App() {
+  return <SafeAreaProvider>{/*...*/}</SafeAreaProvider>;
+}
+```
+
+### Props
+
+Accepts all [View](https://reactnative.dev/docs/view#props) props. Has a default style of `{flex: 1}`.
+
+#### `initialMetrics`
+
+Optional, defaults to `null`.
+
+Can be used to provide the initial value for frame and insets, this allows rendering immediately. See [optimization](/docs/optimizations) for more information on how to use this prop.

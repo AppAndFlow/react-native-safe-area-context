@@ -1,0 +1,19 @@
+---
+sidebar_position: 8
+title: initialWindowMetrics
+sidebar_label: initialWindowMetrics
+---
+
+Insets and frame of the window on initial render. This can be used with the `initialMetrics` from `SafeAreaProvider`. See [optimization](/docs/optimizations) for more information.
+
+Object with:
+
+```ts
+{
+  frame: { x: number, y: number, width: number, height: number },
+  insets: { top: number, left: number, right: number, bottom: number },
+}
+```
+
+**NOTE:** This value can be null or out of date as it is computed when the native module is created.
+

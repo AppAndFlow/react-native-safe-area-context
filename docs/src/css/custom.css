@@ -1,0 +1,141 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+ @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* You can override the default Infima variables here. */
+:root {
+  --primary-hue: 213;
+  --primary-saturation: 100%;
+  --primary-lightness: 66%;
+
+  --ifm-font-family-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, Liberation Mono, Courier New, monospace;
+  --ifm-font-family-base: 'Archivo', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Helvetica Neue';
+
+  --ifm-color-primary: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    var(--primary-lightness)
+  );
+
+  --ifm-color-primary-dark: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    45.1%
+  );
+
+  --ifm-color-primary-darker: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    40.1%
+  );
+
+  --ifm-color-primary-darkest: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    35.1%
+  );
+
+  --ifm-color-primary-light: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    55.2%
+  );
+
+  --ifm-color-primary-lighter: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    60.2%
+  );
+
+  --ifm-color-primary-lightest: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    77.6%
+  );
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary-dark: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    63.1%
+  );
+
+  --ifm-color-primary-darker: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    59.6%
+  );
+
+  --ifm-color-primary-darkest: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    49%
+  );
+
+  --ifm-color-primary-light: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    76.9%
+  );
+
+  --ifm-color-primary-lighter: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    80.4%
+  );
+
+  --ifm-color-primary-lightest: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    91%
+  );
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.header-github {
+  margin-left: 1.5em;
+  position: relative;
+}
+
+.header-github::before {
+  display: flex;
+  height: 20px;
+  width: 20px;
+
+  mask: url(/static/img/github.svg) no-repeat 100% 100%;
+  mask-size: cover;
+  content: '';
+
+  background-color: var(--ifm-navbar-link-color);
+}
+
+.header-github::after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  content: '';
+  z-index: -1;
+  background: transparent;
+  transition: background var(--ifm-transition-fast);
+}
+
+.header-github:hover::after {
+  background: var(--ifm-color-emphasis-200);
+}

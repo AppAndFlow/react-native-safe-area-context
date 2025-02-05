@@ -1,0 +1,23 @@
+---
+sidebar_position: 7
+title: withSafeAreaInsets
+sidebar_label: withSafeAreaInsets
+---
+
+Higher order component that provides safe area insets as the `insets` prop.
+
+```tsx
+type Props = WithSafeAreaInsetsProps & {
+  someProp: number;
+};
+
+class ClassComponent extends React.Component<Props> {
+  render() {
+    return <View style={{ paddingTop: this.props.insets.top }} />;
+  }
+}
+
+const ClassComponentWithInsets = withSafeAreaInsets(ClassComponent);
+
+<ClassComponentWithInsets someProp={1} />;
+```

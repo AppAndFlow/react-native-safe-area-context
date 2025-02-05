@@ -1,0 +1,21 @@
+---
+sidebar_position: 3
+title: useSafeAreaInsets
+sidebar_label: useSafeAreaInsets
+---
+
+Returns the safe area insets of the nearest provider. This allows manipulating the inset values from JavaScript. Note that insets are not updated synchronously so it might cause a slight delay for example when rotating the screen.
+
+Object with `{ top: number, right: number, bottom: number, left: number }`.
+
+### Example
+
+```tsx
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+function HookComponent() {
+  const insets = useSafeAreaInsets();
+
+  return <View style={{ paddingBottom: Math.max(insets.bottom, 16) }} />;
+}
+```
