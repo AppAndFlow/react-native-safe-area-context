@@ -1,3 +1,3 @@
 # Contributing
 
-See https://docs.appandflow.com/react-native-safe-area-context/docs/contributing
+See https://appandflow.github.io/react-native-safe-area-context/contributing/

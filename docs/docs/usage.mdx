@@ -8,12 +8,12 @@ This library has 2 important concepts, if you are familiar with [React Context](
 
 ### Providers
 
-The [SafeAreaProvider](/docs/api/safe-area-provider) component is a `View` from where insets provided by consumers are relative to. This means that if this view overlaps with any system elements (status bar, notches, etc.) these values will be provided to descendent consumers. Usually you will have one provider at the top of your app.
+The [SafeAreaProvider](/api/safe-area-provider) component is a `View` from where insets provided by consumers are relative to. This means that if this view overlaps with any system elements (status bar, notches, etc.) these values will be provided to descendent consumers. Usually you will have one provider at the top of your app.
 
 ### Consumers
 
 Consumers are components and hooks that allow using inset values provided by the nearest parent provider. Values are always relative to a provider and not to these components.
 
-- [SafeAreaView](/docs/api/safe-area-view) is the preferred way to consume insets. This is a regular `View` with insets applied as extra padding or margin. It offers better performance by applying insets natively and avoids flickers that can happen with the other JS based consumers.
+- [SafeAreaView](/api/safe-area-view) is the preferred way to consume insets. This is a regular `View` with insets applied as extra padding or margin. It offers better performance by applying insets natively and avoids flickers that can happen with the other JS based consumers.
 
-- [useSafeAreaInsets](/docs/api/use-safe-area-insets) offers more flexibility, but can cause some layout flicker in certain cases. Use this if you need more control over how insets are applied.
+- [useSafeAreaInsets](/api/use-safe-area-insets) offers more flexibility, but can cause some layout flicker in certain cases. Use this if you need more control over how insets are applied.
