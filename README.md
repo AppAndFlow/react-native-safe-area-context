@@ -10,31 +10,9 @@ App & Flow is a Montreal-based React Native engineering and consulting studio. W
 
 A flexible way to handle safe area, also works on Android and Web!
 
-## Getting started
+## Documentation
 
-```bash
-npm install react-native-safe-area-context
-```
-```bash
-yarn add react-native-safe-area-context
-```
-
-You then need to link the native parts of the library for the platforms you are using.
-
-- **iOS Platform:**
-
-  `$ npx pod-install`
-
-## Supported react-native version
-
-| version | react-native version |
-| ------- | -------------------- |
-| 5       | 0.74                 |
-| 4       | 0.64                 |
-
-## New architecture support
-
-This library currently has experimental support for the new react-native architecture. Note that there will be breaking changes and only the latest version of react-native will be supported.
+Check out our [documentation site](https://appandflow.github.io/react-native-safe-area-context/).
 
 ## Contributing
 
