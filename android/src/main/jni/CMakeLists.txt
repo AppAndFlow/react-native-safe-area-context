@@ -16,6 +16,7 @@ add_compile_options(
   -Wall
   -Wpedantic
   -Wno-gnu-zero-variadic-macro-arguments
+  -Wno-dollar-in-identifier-extension
 )
 
 file(GLOB LIB_CUSTOM_SRCS CONFIGURE_DEPENDS *.cpp ${LIB_COMMON_DIR}/react/renderer/components/${LIB_LITERAL}/*.cpp)
