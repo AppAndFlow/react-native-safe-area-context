@@ -31,7 +31,7 @@ using namespace facebook::react;
     static const auto defaultProps = std::make_shared<const RNCSafeAreaProviderProps>();
     _props = defaultProps;
 
-#if !TARGET_OS_TV
+#if !TARGET_OS_TV && !TARGET_OS_OSX
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(invalidateSafeAreaInsets)
                                                name:UIKeyboardDidShowNotification
@@ -67,7 +67,11 @@ using namespace facebook::react;
   CGRect frame = [self convertRect:self.bounds toView:RNCParentViewController(self).view];
 
   if (_initialInsetsSent &&
+#if TARGET_OS_IPHONE
       UIEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
+#elif TARGET_OS_OSX
+      NSEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
+#endif
       CGRectEqualToRect(frame, _currentFrame)) {
     return;
   }

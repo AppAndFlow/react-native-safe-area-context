@@ -4,6 +4,7 @@
 #import <UIKit/UIKit.h>
 #elif TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+typedef NSView UIView;
 #endif
 
 extern NSString *const RNCSafeAreaDidChange;

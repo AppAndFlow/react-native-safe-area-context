@@ -47,11 +47,34 @@ using namespace facebook::react;
   if (superDescription.length > 0 && [superDescription characterAtIndex:superDescription.length - 1] == '>') {
     superDescription = [superDescription substringToIndex:superDescription.length - 1];
   }
+  
+#if TARGET_OS_IPHONE
+  NSString *providerViewSafeAreaInsetsString = NSStringFromUIEdgeInsets(_providerView.safeAreaInsets);
+  NSString *currentSafeAreaInsetsString = NSStringFromUIEdgeInsets(_currentSafeAreaInsets);
+#elif TARGET_OS_OSX
+  NSString *providerViewSafeAreaInsetsString;
+  NSString *currentSafeAreaInsetsString;
+  if (@available(macOS 11.0, *)) {
+    providerViewSafeAreaInsetsString = [NSString stringWithFormat:@"{%f,%f,%f,%f}",
+                                        _providerView.safeAreaInsets.top,
+                                        _providerView.safeAreaInsets.left,
+                                        _providerView.safeAreaInsets.bottom,
+                                        _providerView.safeAreaInsets.right];
+    currentSafeAreaInsetsString = [NSString stringWithFormat:@"{%f,%f,%f,%f}",
+                                   _currentSafeAreaInsets.top,
+                                   _currentSafeAreaInsets.left,
+                                   _currentSafeAreaInsets.bottom,
+                                   _currentSafeAreaInsets.right];
+  } else {
+    providerViewSafeAreaInsetsString = @"{0.0,0.0,0.0,0.0}";
+    currentSafeAreaInsetsString = @"{0.0,0.0,0.0,0.0}";
+  }
+#endif
 
   return [NSString stringWithFormat:@"%@; RNCSafeAreaInsets = %@; appliedRNCSafeAreaInsets = %@>",
                                     superDescription,
-                                    NSStringFromUIEdgeInsets(_providerView.safeAreaInsets),
-                                    NSStringFromUIEdgeInsets(_currentSafeAreaInsets)];
+                                    providerViewSafeAreaInsetsString,
+                                    currentSafeAreaInsetsString];
 }
 
 - (void)didMoveToWindow
@@ -80,12 +103,18 @@ using namespace facebook::react;
   if (_providerView == nil) {
     return;
   }
+#if TARGET_OS_IPHONE
   UIEdgeInsets safeAreaInsets = _providerView.safeAreaInsets;
 
   if (UIEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale())) {
     return;
   }
-
+#elif TARGET_OS_OSX
+  NSEdgeInsets safeAreaInsets = _providerView.safeAreaInsets;
+  if (NSEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale())) {
+    return;
+  }
+#endif
   _currentSafeAreaInsets = safeAreaInsets;
   [self updateState];
 }
