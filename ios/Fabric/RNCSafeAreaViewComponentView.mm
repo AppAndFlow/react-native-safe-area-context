@@ -58,10 +58,10 @@ using namespace facebook::react;
                                                                           _providerView.safeAreaInsets.bottom,
                                                                           _providerView.safeAreaInsets.right];
   NSString *currentSafeAreaInsetsString = [NSString stringWithFormat:@"{%f,%f,%f,%f}",
-                                                                    _currentSafeAreaInsets.top,
-                                                                    _currentSafeAreaInsets.left,
-                                                                    _currentSafeAreaInsets.bottom,
-                                                                    _currentSafeAreaInsets.right];
+                                                                     _currentSafeAreaInsets.top,
+                                                                     _currentSafeAreaInsets.left,
+                                                                     _currentSafeAreaInsets.bottom,
+                                                                     _currentSafeAreaInsets.right];
 #endif
 
   return [NSString stringWithFormat:@"%@; RNCSafeAreaInsets = %@; appliedRNCSafeAreaInsets = %@>",
