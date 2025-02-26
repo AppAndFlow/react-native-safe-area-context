@@ -62,14 +62,28 @@
     return;
   }
 
-  UIEdgeInsets safeAreaInsets = self.safeAreaInsets;
+  #if TARGET_OS_IPHONE
+    UIEdgeInsets safeAreaInsets = self.safeAreaInsets;
+  #elif TARGET_OS_OSX
+    NSEdgeInsets safeAreaInsets;
+    if (@available(macOS 11.0, *)) {
+      safeAreaInsets = self.safeAreaInsets;
+    } else {
+      safeAreaInsets = NSEdgeInsetsZero;
+    }
+  #endif
+  
   CGRect frame = [self convertRect:self.bounds toView:RNCParentViewController(self).view];
 
   if (_initialInsetsSent &&
-      UIEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
-      CGRectEqualToRect(frame, _currentFrame)) {
-    return;
-  }
+  #if TARGET_OS_IPHONE
+        UIEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
+  #elif TARGET_OS_OSX
+        NSEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
+  #endif
+        CGRectEqualToRect(frame, _currentFrame)) {
+      return;
+    }
   
   _initialInsetsSent = YES;
   _currentSafeAreaInsets = safeAreaInsets;
