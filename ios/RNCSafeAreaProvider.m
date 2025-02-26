@@ -1,11 +1,11 @@
 #import "RNCSafeAreaProvider.h"
 
-#import <React/RCTEventDispatcher.h>
 #import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
 #import <React/RCTUIManager.h>
 #import "RCTUIManagerObserverCoordinator.h"
-#import "RNCSafeAreaUtils.h"
 #import "RNCChangeEvent.h"
+#import "RNCSafeAreaUtils.h"
 
 @interface RNCSafeAreaProvider () <RCTUIManagerObserver>
 
@@ -20,11 +20,11 @@
 
 - (instancetype)initWithEventDispatcher:(id<RCTEventDispatcherProtocol>)eventDispatcher
 {
-    RCTAssertParam(eventDispatcher);
-  
-    if ((self = [super initWithFrame:CGRectZero])) {
+  RCTAssertParam(eventDispatcher);
+
+  if ((self = [super initWithFrame:CGRectZero])) {
 #if !TARGET_OS_TV && !TARGET_OS_OSX
-      
+
     _eventDispatcher = eventDispatcher;
 
     [NSNotificationCenter.defaultCenter addObserver:self
@@ -71,7 +71,7 @@
     safeAreaInsets = NSEdgeInsetsZero;
   }
 #endif
-  
+
   CGRect frame = [self convertRect:self.bounds toView:RNCParentViewController(self).view];
 
   if (_initialInsetsSent &&
@@ -88,14 +88,13 @@
   _currentFrame = frame;
 
   [NSNotificationCenter.defaultCenter postNotificationName:RNCSafeAreaDidChange object:self userInfo:nil];
-  
+
   RNCChangeEvent *changeEvent = [[RNCChangeEvent alloc] initWithEventName:@"onInsetsChange"
                                                                  reactTag:self.reactTag
                                                                    insets:safeAreaInsets
                                                                     frame:frame
                                                             coalescingKey:0];
- 
-  
+
   [_eventDispatcher sendEvent:changeEvent];
 }
 

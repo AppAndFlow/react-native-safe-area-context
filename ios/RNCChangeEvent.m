@@ -2,9 +2,9 @@
 #import <React/RCTAssert.h>
 
 @implementation RNCChangeEvent {
-    UIEdgeInsets _insets;
-    CGRect _frame;
-    uint16_t _coalescingKey;
+  UIEdgeInsets _insets;
+  CGRect _frame;
+  uint16_t _coalescingKey;
 }
 
 @synthesize eventName = _eventName;
@@ -16,41 +16,41 @@
                             frame:(CGRect)frame
                     coalescingKey:(uint16_t)coalescingKey
 {
-    RCTAssertParam(reactTag);
-    
-    if ((self = [super init])) {
-        _eventName = [eventName copy];
-        _viewTag = reactTag;
-        _frame = frame;
-        _insets = insets;
-        _coalescingKey = coalescingKey;
-    }
-    
-    return self;
+  RCTAssertParam(reactTag);
+
+  if ((self = [super init])) {
+    _eventName = [eventName copy];
+    _viewTag = reactTag;
+    _frame = frame;
+    _insets = insets;
+    _coalescingKey = coalescingKey;
+  }
+
+  return self;
 }
 
 RCT_NOT_IMPLEMENTED(-(instancetype)init)
 
 - (uint16_t)coalescingKey
 {
-    return _coalescingKey;
+  return _coalescingKey;
 }
 
 - (NSDictionary *)body
 {
   NSDictionary *body = @{
-      @"insets" : @{
-        @"top" : @(_insets.top),
-        @"right" : @(_insets.right),
-        @"bottom" : @(_insets.bottom),
-        @"left" : @(_insets.left),
-      },
-      @"frame" : @{
-        @"x" : @(_frame.origin.x),
-        @"y" : @(_frame.origin.y),
-        @"width" : @(_frame.size.width),
-        @"height" : @(_frame.size.height),
-      },
+    @"insets" : @{
+      @"top" : @(_insets.top),
+      @"right" : @(_insets.right),
+      @"bottom" : @(_insets.bottom),
+      @"left" : @(_insets.left),
+    },
+    @"frame" : @{
+      @"x" : @(_frame.origin.x),
+      @"y" : @(_frame.origin.y),
+      @"width" : @(_frame.size.width),
+      @"height" : @(_frame.size.height),
+    },
   };
 
   return body;
@@ -75,5 +75,5 @@ RCT_NOT_IMPLEMENTED(-(instancetype)init)
 {
   return @[ self.viewTag, RCTNormalizeInputEventName(self.eventName), [self body] ];
 }
- 
+
 @end
