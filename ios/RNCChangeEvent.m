@@ -75,13 +75,5 @@ RCT_NOT_IMPLEMENTED(-(instancetype)init)
 {
   return @[ self.viewTag, RCTNormalizeInputEventName(self.eventName), [self body] ];
 }
-
-/*
-Not sure if this is needed as eventName is passed in arguments
-- (NSString *)eventName
-{
-  return _eventName;
-}
-*/
  
 @end

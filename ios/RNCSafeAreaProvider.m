@@ -16,7 +16,6 @@
   UIEdgeInsets _currentSafeAreaInsets;
   CGRect _currentFrame;
   BOOL _initialInsetsSent;
-  uint16_t _coalescingKey;
 }
 
 - (instancetype)initWithEventDispatcher:(id<RCTEventDispatcherProtocol>)eventDispatcher
@@ -89,14 +88,12 @@
   _currentFrame = frame;
 
   [NSNotificationCenter.defaultCenter postNotificationName:RNCSafeAreaDidChange object:self userInfo:nil];
-
-    // There's currently only 1 event name "onInsetsChange", so the _coalescingKey doesn't needs to be incremented
-    // Increment _coalescingKey if safeAreaInsets and frame are sent as separate events
-    RNCChangeEvent *changeEvent = [[RNCChangeEvent alloc] initWithEventName:@"onInsetsChange"
-                                                                   reactTag:self.reactTag
-                                                                     insets:safeAreaInsets
-                                                                      frame:frame
-                                                              coalescingKey:_coalescingKey];
+  
+  RNCChangeEvent *changeEvent = [[RNCChangeEvent alloc] initWithEventName:@"onInsetsChange"
+                                                                 reactTag:self.reactTag
+                                                                   insets:safeAreaInsets
+                                                                    frame:frame
+                                                            coalescingKey:0];
  
   
   [_eventDispatcher sendEvent:changeEvent];
@@ -109,13 +106,12 @@
   [self invalidateSafeAreaInsets];
 }
 
+RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame : (CGRect)frame)
+RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
+
 - (void)dealloc
 {
   [_eventDispatcher.bridge.uiManager.observerCoordinator removeObserver:self];
 }
-
-
-RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame : (CGRect)frame)
-RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
 
 @end
