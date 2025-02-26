@@ -1,7 +1,7 @@
-#import "RNCChangeEvent.h"
+#import "RNCOnInsetsChangeEvent.h"
 #import <React/RCTAssert.h>
 
-@implementation RNCChangeEvent {
+@implementation RNCOnInsetsChangeEvent {
   UIEdgeInsets _insets;
   CGRect _frame;
   uint16_t _coalescingKey;
@@ -61,7 +61,7 @@ RCT_NOT_IMPLEMENTED(-(instancetype)init)
   return YES;
 }
 
-- (RNCChangeEvent *)coalesceWithEvent:(RNCChangeEvent *)newEvent
+- (RNCOnInsetsChangeEvent *)coalesceWithEvent:(RNCOnInsetsChangeEvent *)newEvent
 {
   return newEvent;
 }

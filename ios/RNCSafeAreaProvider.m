@@ -4,7 +4,7 @@
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUIManager.h>
 #import "RCTUIManagerObserverCoordinator.h"
-#import "RNCChangeEvent.h"
+#import "RNCOnInsetsChangeEvent.h"
 #import "RNCSafeAreaUtils.h"
 
 @interface RNCSafeAreaProvider () <RCTUIManagerObserver>
@@ -89,13 +89,13 @@
 
   [NSNotificationCenter.defaultCenter postNotificationName:RNCSafeAreaDidChange object:self userInfo:nil];
 
-  RNCChangeEvent *changeEvent = [[RNCChangeEvent alloc] initWithEventName:@"onInsetsChange"
+  RNCOnInsetsChangeEvent *onInsetsChangeEvent = [[RNCOnInsetsChangeEvent alloc] initWithEventName:@"onInsetsChange"
                                                                  reactTag:self.reactTag
                                                                    insets:safeAreaInsets
                                                                     frame:frame
                                                             coalescingKey:0];
 
-  [_eventDispatcher sendEvent:changeEvent];
+  [_eventDispatcher sendEvent:onInsetsChangeEvent];
 }
 
 - (void)layoutSubviews

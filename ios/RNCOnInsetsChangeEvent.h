@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTEventDispatcherProtocol.h>
 
-@interface RNCChangeEvent : NSObject <RCTEvent>
+@interface RNCOnInsetsChangeEvent : NSObject <RCTEvent>
 
 - (instancetype)initWithEventName:(NSString *)eventName
                          reactTag:(NSNumber *)reactTag
