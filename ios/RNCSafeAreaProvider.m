@@ -84,7 +84,6 @@
       CGRectEqualToRect(frame, _currentFrame)) {
     return;
   }
-  
   _initialInsetsSent = YES;
   _currentSafeAreaInsets = safeAreaInsets;
   _currentFrame = frame;
