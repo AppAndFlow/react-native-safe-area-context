@@ -58,6 +58,8 @@ export function SafeAreaProvider({
       nativeEvent: { frame: nextFrame, insets: nextInsets },
     } = event;
 
+    console.log('onInsetsChange', nextInsets);
+
     setFrame((curFrame) => {
       if (
         // Backwards compat with old native code that won't send frame.

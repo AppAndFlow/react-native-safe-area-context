@@ -14,7 +14,7 @@ RCT_EXPORT_VIEW_PROPERTY(onInsetsChange, RCTDirectEventBlock)
 - (NSView *)view
 #endif
 {
-  return [RNCSafeAreaProvider new];
+  return [[RNCSafeAreaProvider alloc] initWithEventDispatcher:self.bridge.eventDispatcher];
 }
 
 @end

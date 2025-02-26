@@ -1,19 +1,33 @@
 #import "RNCSafeAreaProvider.h"
 
+#import <React/RCTEventDispatcher.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+#import "RCTUIManagerObserverCoordinator.h"
 #import "RNCSafeAreaUtils.h"
+#import "RNCChangeEvent.h"
+
+@interface RNCSafeAreaProvider () <RCTUIManagerObserver>
+
+@end
 
 @implementation RNCSafeAreaProvider {
+  id<RCTEventDispatcherProtocol> _eventDispatcher;
   UIEdgeInsets _currentSafeAreaInsets;
   CGRect _currentFrame;
   BOOL _initialInsetsSent;
+  uint16_t _coalescingKey;
 }
 
-- (instancetype)init
+- (instancetype)initWithEventDispatcher:(id<RCTEventDispatcherProtocol>)eventDispatcher
 {
-  if ((self = [super init])) {
-#if !TARGET_OS_TV && !TARGET_OS_OSX
+    RCTAssertParam(eventDispatcher);
+  
+    if ((self = [super initWithFrame:CGRectZero])) {
+#if !TARGET_OS_TV
+      
+    _eventDispatcher = eventDispatcher;
+
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(invalidateSafeAreaInsets)
                                                name:UIKeyboardDidShowNotification
@@ -48,48 +62,31 @@
     return;
   }
 
-#if TARGET_OS_IPHONE
   UIEdgeInsets safeAreaInsets = self.safeAreaInsets;
-#elif TARGET_OS_OSX
-  NSEdgeInsets safeAreaInsets;
-  if (@available(macOS 11.0, *)) {
-    safeAreaInsets = self.safeAreaInsets;
-  } else {
-    safeAreaInsets = NSEdgeInsetsZero;
-  }
-#endif
   CGRect frame = [self convertRect:self.bounds toView:RNCParentViewController(self).view];
 
   if (_initialInsetsSent &&
-#if TARGET_OS_IPHONE
       UIEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
-#elif TARGET_OS_OSX
-      NSEdgeInsetsEqualToEdgeInsetsWithThreshold(safeAreaInsets, _currentSafeAreaInsets, 1.0 / RCTScreenScale()) &&
-#endif
       CGRectEqualToRect(frame, _currentFrame)) {
     return;
   }
-
+  
   _initialInsetsSent = YES;
   _currentSafeAreaInsets = safeAreaInsets;
   _currentFrame = frame;
 
   [NSNotificationCenter.defaultCenter postNotificationName:RNCSafeAreaDidChange object:self userInfo:nil];
 
-  self.onInsetsChange(@{
-    @"insets" : @{
-      @"top" : @(safeAreaInsets.top),
-      @"right" : @(safeAreaInsets.right),
-      @"bottom" : @(safeAreaInsets.bottom),
-      @"left" : @(safeAreaInsets.left),
-    },
-    @"frame" : @{
-      @"x" : @(frame.origin.x),
-      @"y" : @(frame.origin.y),
-      @"width" : @(frame.size.width),
-      @"height" : @(frame.size.height),
-    },
-  });
+    // There's currently only 1 event name "change", so the _coalescingKey doesn't needs to be incremented
+    // Increment _coalescingKey if safeAreaInsets and frame are sent as separate events
+    RNCChangeEvent *changeEvent = [[RNCChangeEvent alloc] initWithEventName:@"onInsetsChange"
+                                                                   reactTag:self.reactTag
+                                                                     insets:safeAreaInsets
+                                                                      frame:frame
+                                                              coalescingKey:_coalescingKey];
+ 
+  
+  [_eventDispatcher sendEvent:changeEvent];
 }
 
 - (void)layoutSubviews
@@ -98,5 +95,14 @@
 
   [self invalidateSafeAreaInsets];
 }
+
+- (void)dealloc
+{
+  [_eventDispatcher.bridge.uiManager.observerCoordinator removeObserver:self];
+}
+
+
+RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame : (CGRect)frame)
+RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
 
 @end
