@@ -105,8 +105,8 @@
   [self invalidateSafeAreaInsets];
 }
 
-RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame : (CGRect)frame)
-RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
+RCT_NOT_IMPLEMENTED(-(instancetype)initWithFrame:(CGRect)frame)
+RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder:(NSCoder *)aDecoder)
 
 - (void)dealloc
 {
