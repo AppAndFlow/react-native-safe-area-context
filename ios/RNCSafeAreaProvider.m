@@ -91,7 +91,7 @@
 
   [NSNotificationCenter.defaultCenter postNotificationName:RNCSafeAreaDidChange object:self userInfo:nil];
 
-    // There's currently only 1 event name "change", so the _coalescingKey doesn't needs to be incremented
+    // There's currently only 1 event name "onInsetsChange", so the _coalescingKey doesn't needs to be incremented
     // Increment _coalescingKey if safeAreaInsets and frame are sent as separate events
     RNCChangeEvent *changeEvent = [[RNCChangeEvent alloc] initWithEventName:@"onInsetsChange"
                                                                    reactTag:self.reactTag
