@@ -90,10 +90,10 @@
   [NSNotificationCenter.defaultCenter postNotificationName:RNCSafeAreaDidChange object:self userInfo:nil];
 
   RNCOnInsetsChangeEvent *onInsetsChangeEvent = [[RNCOnInsetsChangeEvent alloc] initWithEventName:@"onInsetsChange"
-                                                                 reactTag:self.reactTag
-                                                                   insets:safeAreaInsets
-                                                                    frame:frame
-                                                            coalescingKey:0];
+                                                                                         reactTag:self.reactTag
+                                                                                           insets:safeAreaInsets
+                                                                                            frame:frame
+                                                                                    coalescingKey:0];
 
   [_eventDispatcher sendEvent:onInsetsChangeEvent];
 }
