@@ -5,19 +5,19 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.ReactStylesDiffMap
 import com.facebook.react.uimanager.StateWrapper
 import com.facebook.react.uimanager.ThemedReactContext
+import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.facebook.react.viewmanagers.RNCSafeAreaViewManagerDelegate
 import com.facebook.react.viewmanagers.RNCSafeAreaViewManagerInterface
-import com.facebook.react.views.view.ReactViewGroup
-import com.facebook.react.views.view.ReactViewManager
 
 @ReactModule(name = SafeAreaViewManager.REACT_CLASS)
-class SafeAreaViewManager : ReactViewManager(), RNCSafeAreaViewManagerInterface<SafeAreaView> {
+class SafeAreaViewManager : ViewGroupManager<SafeAreaView>(), RNCSafeAreaViewManagerInterface<SafeAreaView> {
   override fun getName() = REACT_CLASS
 
-  // Make sure we're not using delegates for now since ReactViewGroupManager doesn't use one. If it
-  // does in the future we will need a way to compose delegates together.
-  override fun getDelegate(): ViewManagerDelegate<ReactViewGroup>? = null
+    private val delegate: ViewManagerDelegate<SafeAreaView> = RNCSafeAreaViewManagerDelegate(this)
+
+  override fun getDelegate(): ViewManagerDelegate<SafeAreaView> = delegate
 
   override fun createViewInstance(context: ThemedReactContext) = SafeAreaView(context)
 
@@ -59,11 +59,11 @@ class SafeAreaViewManager : ReactViewManager(), RNCSafeAreaViewManagerInterface<
   }
 
   override fun updateState(
-      view: ReactViewGroup,
+      view: SafeAreaView,
       props: ReactStylesDiffMap?,
       stateWrapper: StateWrapper?
   ): Any? {
-    (view as SafeAreaView).setStateWrapper(stateWrapper)
+    view.setStateWrapper(stateWrapper)
     return null
   }
 
