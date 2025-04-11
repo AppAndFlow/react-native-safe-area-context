@@ -12,10 +12,11 @@ import com.facebook.react.viewmanagers.RNCSafeAreaViewManagerDelegate
 import com.facebook.react.viewmanagers.RNCSafeAreaViewManagerInterface
 
 @ReactModule(name = SafeAreaViewManager.REACT_CLASS)
-class SafeAreaViewManager : ViewGroupManager<SafeAreaView>(), RNCSafeAreaViewManagerInterface<SafeAreaView> {
+class SafeAreaViewManager :
+    ViewGroupManager<SafeAreaView>(), RNCSafeAreaViewManagerInterface<SafeAreaView> {
   override fun getName() = REACT_CLASS
 
-    private val delegate: ViewManagerDelegate<SafeAreaView> = RNCSafeAreaViewManagerDelegate(this)
+  private val delegate: ViewManagerDelegate<SafeAreaView> = RNCSafeAreaViewManagerDelegate(this)
 
   override fun getDelegate(): ViewManagerDelegate<SafeAreaView> = delegate
 
