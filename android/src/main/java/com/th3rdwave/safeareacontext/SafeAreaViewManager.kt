@@ -5,20 +5,13 @@ import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.ReactStylesDiffMap
 import com.facebook.react.uimanager.StateWrapper
 import com.facebook.react.uimanager.ThemedReactContext
-import com.facebook.react.uimanager.ViewGroupManager
-import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
-import com.facebook.react.viewmanagers.RNCSafeAreaViewManagerDelegate
-import com.facebook.react.viewmanagers.RNCSafeAreaViewManagerInterface
+import com.facebook.react.views.view.ReactViewGroup
+import com.facebook.react.views.view.ReactViewManager
 
 @ReactModule(name = SafeAreaViewManager.REACT_CLASS)
-class SafeAreaViewManager :
-    ViewGroupManager<SafeAreaView>(), RNCSafeAreaViewManagerInterface<SafeAreaView> {
+class SafeAreaViewManager : ReactViewManager() {
   override fun getName() = REACT_CLASS
-
-  private val delegate: ViewManagerDelegate<SafeAreaView> = RNCSafeAreaViewManagerDelegate(this)
-
-  override fun getDelegate(): ViewManagerDelegate<SafeAreaView> = delegate
 
   override fun createViewInstance(context: ThemedReactContext) = SafeAreaView(context)
 
@@ -27,7 +20,7 @@ class SafeAreaViewManager :
   override fun getShadowNodeClass() = SafeAreaViewShadowNode::class.java
 
   @ReactProp(name = "mode")
-  override fun setMode(view: SafeAreaView, mode: String?) {
+  fun setMode(view: SafeAreaView, mode: String?) {
     when (mode) {
       "padding" -> {
         view.setMode(SafeAreaViewMode.PADDING)
@@ -39,7 +32,7 @@ class SafeAreaViewManager :
   }
 
   @ReactProp(name = "edges")
-  override fun setEdges(view: SafeAreaView, propList: ReadableMap?) {
+  fun setEdges(view: SafeAreaView, propList: ReadableMap?) {
     if (propList != null) {
       view.setEdges(
           SafeAreaViewEdges(
@@ -60,11 +53,11 @@ class SafeAreaViewManager :
   }
 
   override fun updateState(
-      view: SafeAreaView,
+      view: ReactViewGroup,
       props: ReactStylesDiffMap?,
       stateWrapper: StateWrapper?
   ): Any? {
-    view.setStateWrapper(stateWrapper)
+    (view as SafeAreaView).setStateWrapper(stateWrapper)
     return null
   }
 
