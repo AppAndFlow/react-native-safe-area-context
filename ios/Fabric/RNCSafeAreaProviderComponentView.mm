@@ -57,6 +57,7 @@ using namespace facebook::react;
 
 - (void)invalidateSafeAreaInsets
 {
+  if (self.superview == nil) { return; }
   // This gets called before the view size is set by react-native so
   // make sure to wait so we don't set wrong insets to JS.
   if (CGSizeEqualToSize(self.frame.size, CGSizeZero)) {
@@ -123,6 +124,7 @@ using namespace facebook::react;
   _currentSafeAreaInsets = UIEdgeInsetsZero;
   _currentFrame = CGRectZero;
   _initialInsetsSent = NO;
+  [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 @end
