@@ -36,29 +36,31 @@ using namespace facebook::react;
   return self;
 }
 
-- (void)willMoveToSuperview:(UIView*)newSuperView {
-    [super willMoveToSuperview:newSuperView];
+- (void)willMoveToSuperview:(UIView *)newSuperView
+{
+  [super willMoveToSuperview:newSuperView];
 
-    if (newSuperView != nil && !_registeredNotifications) {
-        _registeredNotifications = YES;
-        [self registerNotifications];
-    }
+  if (newSuperView != nil && !_registeredNotifications) {
+    _registeredNotifications = YES;
+    [self registerNotifications];
+  }
 }
 
-- (void)registerNotifications {
+- (void)registerNotifications
+{
 #if !TARGET_OS_TV && !TARGET_OS_OSX
-    [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(invalidateSafeAreaInsets)
-                                               name:UIKeyboardDidShowNotification
-                                             object:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(invalidateSafeAreaInsets)
-                                               name:UIKeyboardDidHideNotification
-                                             object:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(invalidateSafeAreaInsets)
-                                               name:UIKeyboardDidChangeFrameNotification
-                                             object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(invalidateSafeAreaInsets)
+                                             name:UIKeyboardDidShowNotification
+                                           object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(invalidateSafeAreaInsets)
+                                             name:UIKeyboardDidHideNotification
+                                           object:nil];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(invalidateSafeAreaInsets)
+                                             name:UIKeyboardDidChangeFrameNotification
+                                           object:nil];
 #endif
 }
 
@@ -69,7 +71,9 @@ using namespace facebook::react;
 
 - (void)invalidateSafeAreaInsets
 {
-  if (self.superview == nil) { return; }
+  if (self.superview == nil) {
+    return;
+  }
   // This gets called before the view size is set by react-native so
   // make sure to wait so we don't set wrong insets to JS.
   if (CGSizeEqualToSize(self.frame.size, CGSizeZero)) {
