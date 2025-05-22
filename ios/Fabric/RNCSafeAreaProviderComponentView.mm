@@ -17,6 +17,7 @@ using namespace facebook::react;
   UIEdgeInsets _currentSafeAreaInsets;
   CGRect _currentFrame;
   BOOL _initialInsetsSent;
+  BOOL _registeredNotifications;
 }
 
 // Needed because of this: https://github.com/facebook/react-native/pull/37274
@@ -30,7 +31,21 @@ using namespace facebook::react;
   if (self = [super initWithFrame:frame]) {
     static const auto defaultProps = std::make_shared<const RNCSafeAreaProviderProps>();
     _props = defaultProps;
+  }
 
+  return self;
+}
+
+- (void)willMoveToSuperview:(UIView*)newSuperView {
+    [super willMoveToSuperview:newSuperView];
+
+    if (newSuperView != nil && !_registeredNotifications) {
+        _registeredNotifications = YES;
+        [self registerNotifications];
+    }
+}
+
+- (void)registerNotifications {
 #if !TARGET_OS_TV && !TARGET_OS_OSX
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(invalidateSafeAreaInsets)
@@ -45,9 +60,6 @@ using namespace facebook::react;
                                                name:UIKeyboardDidChangeFrameNotification
                                              object:nil];
 #endif
-  }
-
-  return self;
 }
 
 - (void)safeAreaInsetsDidChange
@@ -125,6 +137,7 @@ using namespace facebook::react;
   _currentFrame = CGRectZero;
   _initialInsetsSent = NO;
   [NSNotificationCenter.defaultCenter removeObserver:self];
+  _registeredNotifications = NO;
 }
 
 @end
