@@ -1,21 +1,20 @@
 import * as React from 'react';
 import { Button, Text } from 'react-native';
-import type { ScreenProps } from '../types/Navigation';
+import type { Routes } from '../types/Navigation';
 import { SafeAreaViewVisualizer } from './SafeAreaViewVisualizer';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
-export default function ReactNavigationSettingsScreen({
-  navigation,
-}: ScreenProps<'Settings'>) {
+export default function ReactNavigationSettingsScreen() {
+  const { navigate, push } = useNavigation<NativeStackNavigationProp<Routes>>();
+
   return (
     <SafeAreaViewVisualizer>
       <Text>Settings Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
+      <Button title="Go to Details" onPress={() => navigate('Details')} />
       <Button
         title="Go to Modal Details"
-        onPress={() => navigation.push('ModalDetails')}
+        onPress={() => push('ModalDetails')}
       />
     </SafeAreaViewVisualizer>
   );
