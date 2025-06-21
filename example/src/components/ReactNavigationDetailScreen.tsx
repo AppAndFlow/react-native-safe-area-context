@@ -1,29 +1,29 @@
 import * as React from 'react';
 import { Button, Text } from 'react-native';
-import type { ScreenProps } from '../types/Navigation';
+import type { Routes } from '../types/Navigation';
 import { SafeAreaViewVisualizer } from './SafeAreaViewVisualizer';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export default function ReactNavigationDetailScreen({
-  navigation,
-}: ScreenProps<'Details'>) {
-  const isV5 = typeof navigation.setOptions === 'function';
+export default function ReactNavigationDetailScreen() {
   const [headerShown, setHeaderShown] = React.useState(true);
+  const { navigate, goBack, setOptions, push } =
+    useNavigation<NativeStackNavigationProp<Routes>>();
+
+  const isV5 = typeof setOptions === 'function';
 
   React.useLayoutEffect(() => {
     if (isV5) {
-      navigation.setOptions({ headerShown });
+      setOptions({ headerShown });
     }
-  }, [navigation, isV5, headerShown]);
+  }, [setOptions, isV5, headerShown]);
 
   return (
     <SafeAreaViewVisualizer>
       <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Button title="Go to Details... again" onPress={() => push('Details')} />
+      <Button title="Go to Home" onPress={() => navigate('Home')} />
+      <Button title="Go back" onPress={() => goBack()} />
       {isV5 && (
         <Button
           title="Toggle header"
