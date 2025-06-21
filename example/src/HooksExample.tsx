@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StatusBar, ScrollView, TextInput } from 'react-native';
+import { View, StatusBar, ScrollView, TextInput } from 'react-native';
 
 import {
   SafeAreaProvider,
@@ -7,38 +7,8 @@ import {
   initialWindowMetrics,
   useSafeAreaFrame,
 } from 'react-native-safe-area-context';
-
-const DataView = ({ data }: { data: object | null | undefined }) => (
-  <Text style={{ fontSize: 16, lineHeight: 24, color: '#292929' }}>
-    {data == null
-      ? 'null'
-      : Object.entries(data)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join('\n')}
-  </Text>
-);
-
-const Card = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <View style={{ padding: 16, backgroundColor: 'white', marginBottom: 4 }}>
-    <Text
-      style={{
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 16,
-        color: '#292929',
-      }}
-    >
-      {title}
-    </Text>
-    {children}
-  </View>
-);
+import { DataView } from './components/DataView';
+import { Card } from './components/Card';
 
 const BORDER_WIDTH = 8;
 

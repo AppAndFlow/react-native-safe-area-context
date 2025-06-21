@@ -1,0 +1,35 @@
+---
+sidebar_position: 2
+title: SafeAreaListener
+sidebar_label: SafeAreaListener
+---
+
+Component that lets you listen to safe area insets and frame changes at the position where it is rendered.
+
+This is an alternative to using the `useSafeAreaInsets` and `useSafeAreaFrame` hooks in combinations with `SafeAreaProvider`. Unlike the hooks, this notifies about changes with the `onChange` prop and doesn't trigger re-renders when the insets or frame change.
+
+### Example
+
+```tsx
+import { SafeAreaListener } from 'react-native-safe-area-context';
+
+function SomeComponent() {
+  return (
+    <SafeAreaListener
+      onChange={({ insets, frame }) => {
+        console.log('Safe area changed:', { insets, frame });
+      }}
+    >
+      {/* Your content here */}
+    </SafeAreaListener>
+  );
+}
+```
+
+### Props
+
+Accepts all [View](https://reactnative.dev/view#props) props.
+
+#### `onChange`
+
+Required, a function that receives an object with `insets` and `frame` properties. The `insets` property contains the safe area insets, and the `frame` property contains the frame of the component.
