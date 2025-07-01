@@ -36,6 +36,7 @@ using namespace facebook::react;
   return self;
 }
 
+#if !TARGET_OS_OSX
 - (void)willMoveToSuperview:(UIView *)newSuperView
 {
   [super willMoveToSuperview:newSuperView];
@@ -45,6 +46,7 @@ using namespace facebook::react;
     [self registerNotifications];
   }
 }
+#endif
 
 - (void)registerNotifications
 {
