@@ -23,10 +23,6 @@ class JSI_EXPORT RNCSafeAreaViewShadowNode final
   using ConcreteViewShadowNode::ConcreteViewShadowNode;
 
  public:
-  static ShadowNodeTraits BaseTraits() {
-    return ConcreteViewShadowNode::BaseTraits();
-  }
-
   void adjustLayoutWithState();
 };
 
