@@ -24,9 +24,7 @@ class JSI_EXPORT RNCSafeAreaViewShadowNode final
 
  public:
   static ShadowNodeTraits BaseTraits() {
-    auto traits = ConcreteViewShadowNode::BaseTraits();
-    traits.set(ShadowNodeTraits::Trait::DirtyYogaNode);
-    return traits;
+    return ConcreteViewShadowNode::BaseTraits();
   }
 
   void adjustLayoutWithState();
