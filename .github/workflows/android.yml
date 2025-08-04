@@ -19,16 +19,24 @@ on:
 jobs:
   android-build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        newArch: [true, false]
+        buildType: [Debug, Release]
+    name: Build (newArch=${{ matrix.newArch }}, buildType=${{ matrix.buildType }})
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '17'
+
       - name: Restore yarn workspaces
         id: yarn-cache
         uses: actions/cache@v3
@@ -37,39 +45,14 @@ jobs:
             node_modules
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install dependencies
         run: yarn install
+
       - name: Install example app dependencies
         run: yarn install
         working-directory: example
-      - name: Build android example app with new arch disabled
-        run: ./gradlew assembleDebug -PnewArchEnabled=false
-        working-directory: example/android
-  android-build-fabric:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 20.x
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: Restore yarn workspaces
-        id: yarn-cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn install
-      - name: Install example app dependencies
-        run: yarn install
-        working-directory: example
-      - name: Build android example app with new arch enabled
-        run: ./gradlew assembleDebug -PnewArchEnabled=true
+
+      - name: Build Android example app
+        run: ./gradlew assemble${{ matrix.buildType }} -PnewArchEnabled=${{ matrix.newArch }}
         working-directory: example/android
