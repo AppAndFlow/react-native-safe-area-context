@@ -35,7 +35,7 @@ jobs:
         working-directory: example
 
       - name: Build android example app with new arch disabled
-        run: ./gradlew assembleRelease -PnewArchEnabled=false
+        run: ./gradlew assembleRelease -PnewArchEnabled=true
         working-directory: example/android
 
       - name: Upload APK to Release
