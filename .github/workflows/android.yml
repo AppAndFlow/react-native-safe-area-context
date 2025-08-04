@@ -20,6 +20,7 @@ jobs:
   android-build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         newArch: [true, false]
         buildType: [Debug, Release]
