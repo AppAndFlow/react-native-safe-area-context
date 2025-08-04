@@ -1,0 +1,54 @@
+name: Android build (Release)
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build_release:
+    name: Build Android Example App (release)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Restore yarn workspaces
+        id: yarn-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install
+      - name: Install example app dependencies
+        run: yarn install
+        working-directory: example
+
+      - name: Build android example app with new arch disabled
+        run: ./gradlew assembleRelease -PnewArchEnabled=false
+        working-directory: example/android
+
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: example/android/app/build/outputs/apk/release/app-release.apk
+          asset_name: "SafeAreaExample-${{ github.event.release.tag_name }}.apk"
+          asset_content_type: application/vnd.android.package-archive
+
+      # Gradle cache doesn't like daemons
+      - name: Stop Gradle Daemon
+        working-directory: example/android
+        run: ./gradlew --stop
