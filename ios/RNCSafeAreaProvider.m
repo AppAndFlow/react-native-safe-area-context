@@ -3,7 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTEventDispatcher.h>
 #import <React/RCTUIManager.h>
-#import "RCTUIManagerObserverCoordinator.h"
+#import <React/RCTUIManagerObserverCoordinator.h>
 #import "RNCOnInsetsChangeEvent.h"
 #import "RNCSafeAreaUtils.h"
 
