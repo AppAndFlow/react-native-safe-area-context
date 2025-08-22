@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = "12.4"
   s.visionos.deployment_target = "1.0"
 
-  s.source       = { :git => "https://github.com/th3rdwave/react-native-safe-area-context.git", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/AppAndFlow/react-native-safe-area-context.git", :tag => "v#{s.version}" }
   s.source_files  = "ios/**/*.{h,m,mm}"
   s.exclude_files = "ios/Fabric"
 
