@@ -23,10 +23,9 @@
   RCTAssertParam(eventDispatcher);
 
   if ((self = [super initWithFrame:CGRectZero])) {
-#if !TARGET_OS_TV && !TARGET_OS_OSX
-
     _eventDispatcher = eventDispatcher;
 
+#if !TARGET_OS_TV && !TARGET_OS_OSX
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(invalidateSafeAreaInsets)
                                                name:UIKeyboardDidShowNotification
