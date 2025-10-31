@@ -9,6 +9,23 @@ import java.lang.IllegalArgumentException
 import kotlin.math.max
 import kotlin.math.min
 
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+private fun getRootWindowInsetsCompatV(rootView: View): EdgeInsets? {
+  val insets =
+      rootView.rootWindowInsets?.getInsets(
+          WindowInsets.Type.statusBars() or
+              WindowInsets.Type.displayCutout() or
+              WindowInsets.Type.navigationBars() or
+              WindowInsets.Type.captionBar() or
+              WindowInsets.Type.ime())
+          ?: return null
+  return EdgeInsets(
+      top = insets.top.toFloat(),
+      right = insets.right.toFloat(),
+      bottom = insets.bottom.toFloat(),
+      left = insets.left.toFloat())
+}
+
 @RequiresApi(Build.VERSION_CODES.R)
 private fun getRootWindowInsetsCompatR(rootView: View): EdgeInsets? {
   val insets =
@@ -53,6 +70,7 @@ private fun getRootWindowInsetsCompatBase(rootView: View): EdgeInsets? {
 
 private fun getRootWindowInsetsCompat(rootView: View): EdgeInsets? {
   return when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM -> getRootWindowInsetsCompatV(rootView)
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> getRootWindowInsetsCompatR(rootView)
     Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> getRootWindowInsetsCompatM(rootView)
     else -> getRootWindowInsetsCompatBase(rootView)
