@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import type { Metrics } from '../src/SafeArea.types';
 import type {
   SafeAreaProviderProps,
