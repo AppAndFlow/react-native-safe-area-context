@@ -22,13 +22,13 @@ function getEdgeValue(
   mode: EdgeMode | undefined,
 ) {
   switch (mode) {
-    case 'off':
-      return current;
     case 'maximum':
       return Math.max(current, inset);
     case 'additive':
-    default:
       return current + inset;
+    case 'off':
+    default:
+      return current;
   }
 }
 
