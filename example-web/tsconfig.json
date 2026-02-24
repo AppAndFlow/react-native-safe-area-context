@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["vite/client"],
+    "paths": {
+      "react-native": ["./node_modules/react-native-web"],
+      "react-native-safe-area-context": ["../src"]
+    }
+  },
+  "include": ["src"]
+}
