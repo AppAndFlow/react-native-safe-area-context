@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -41,7 +41,7 @@ function HooksExampleScreen() {
           <DataView data={initialWindowMetrics?.frame} />
         </Card>
         <Card title="Note">
-          <Text style={styles.note}>
+          <Text style={{ fontSize: 14, lineHeight: 20, color: '#576574' }}>
             On desktop browsers, insets will be 0. The CSS env(safe-area-inset-*)
             values only report non-zero on devices with notches (e.g. iPhone in
             Safari). The frame values reflect the current window dimensions.
@@ -63,11 +63,3 @@ export default function HooksExample() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  note: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#576574',
-  },
-});

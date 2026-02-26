@@ -1,17 +1,13 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Switch,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, ScrollView, Switch, Pressable } from 'react-native';
 import {
   SafeAreaProvider,
   SafeAreaView,
   EdgeRecord,
 } from 'react-native-safe-area-context';
+
+const marginColor = '#5f27cd';
+const paddingColor = '#10ac84';
 
 export default function SafeAreaViewEdgesExample() {
   const [mode, setMode] = React.useState<'padding' | 'margin'>('padding');
@@ -41,10 +37,10 @@ export default function SafeAreaViewEdgesExample() {
 
   return (
     <SafeAreaProvider>
-      <View style={styles.background}>
+      <View style={{ flex: 1, backgroundColor: marginColor }}>
         <SafeAreaView
           style={[
-            styles.safeArea,
+            { flex: 1, backgroundColor: paddingColor, borderRadius: 16 },
             {
               margin: additionalMargin ? 8 : 0,
               padding: additionalPadding ? 8 : 0,
@@ -53,14 +49,34 @@ export default function SafeAreaViewEdgesExample() {
           mode={mode}
           edges={edges}
         >
-          <ScrollView contentContainerStyle={styles.contentContainer}>
-            <Text style={styles.text}>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              backgroundColor: 'white',
+              padding: 20,
+              justifyContent: 'center',
+            }}
+          >
+            <Text style={{ fontSize: 17, lineHeight: 24, color: '#222f3e' }}>
               Edges{'\n'}
-              <Text style={styles.subText}>
+              <Text style={{ fontSize: 14, color: '#576574' }}>
                 Make sure at least one is picked!
               </Text>
             </Text>
-            <View style={styles.edges}>
+            <View
+              style={{
+                alignSelf: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 40,
+                marginBottom: 100,
+                width: 200,
+                height: 200,
+                borderWidth: 0.5,
+                borderColor: '#c8d6e5',
+                borderRadius: 6,
+              }}
+            >
               <Switch
                 value={top}
                 onValueChange={setTop}
@@ -87,19 +103,39 @@ export default function SafeAreaViewEdgesExample() {
               />
             </View>
             <Pressable
-              style={styles.row}
+              style={{
+                marginVertical: 4,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
               onPress={() => setMode(mode === 'padding' ? 'margin' : 'padding')}
             >
-              <Text style={styles.text}>
+              <Text style={{ fontSize: 17, lineHeight: 24, color: '#222f3e' }}>
                 Safe areas added to{' '}
                 <Text style={{ color: modeTint }}>{mode}</Text>
                 {'\n'}
-                <Text style={styles.subText}>Tap to toggle</Text>
+                <Text style={{ fontSize: 14, color: '#576574' }}>
+                  Tap to toggle
+                </Text>
               </Text>
             </Pressable>
-            <View style={styles.separator} />
-            <View style={styles.row}>
-              <Text style={styles.text}>
+            <View
+              style={{
+                marginVertical: 12,
+                backgroundColor: '#c8d6e5',
+                height: 0.5,
+              }}
+            />
+            <View
+              style={{
+                marginVertical: 4,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={{ fontSize: 17, lineHeight: 24, color: '#222f3e' }}>
                 Add additional{' '}
                 <Text style={{ color: paddingColor }}>padding</Text>
               </Text>
@@ -109,8 +145,15 @@ export default function SafeAreaViewEdgesExample() {
                 trackColor={{ true: paddingColor, false: '' }}
               />
             </View>
-            <View style={styles.row}>
-              <Text style={styles.text}>
+            <View
+              style={{
+                marginVertical: 4,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={{ fontSize: 17, lineHeight: 24, color: '#222f3e' }}>
                 Add additional{' '}
                 <Text style={{ color: marginColor }}>margin</Text>
               </Text>
@@ -120,8 +163,17 @@ export default function SafeAreaViewEdgesExample() {
                 trackColor={{ true: marginColor, false: '' }}
               />
             </View>
-            <View style={styles.row}>
-              <Text style={styles.text}>Use maximum edge mode</Text>
+            <View
+              style={{
+                marginVertical: 4,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text style={{ fontSize: 17, lineHeight: 24, color: '#222f3e' }}>
+                Use maximum edge mode
+              </Text>
               <Switch
                 value={maximumEdgeMode}
                 onValueChange={setMaximumEdgeMode}
@@ -134,56 +186,3 @@ export default function SafeAreaViewEdgesExample() {
     </SafeAreaProvider>
   );
 }
-
-const marginColor = '#5f27cd';
-const paddingColor = '#10ac84';
-
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    backgroundColor: marginColor,
-  },
-  safeArea: {
-    flex: 1,
-    backgroundColor: paddingColor,
-    borderRadius: 16,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    backgroundColor: 'white',
-    padding: 20,
-    justifyContent: 'center',
-  },
-  edges: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 40,
-    marginBottom: 100,
-    width: 200,
-    height: 200,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#c8d6e5',
-    borderRadius: 6,
-  },
-  row: {
-    marginVertical: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  separator: {
-    marginVertical: 12,
-    backgroundColor: '#c8d6e5',
-    height: StyleSheet.hairlineWidth,
-  },
-  text: {
-    fontSize: 17,
-    lineHeight: 24,
-    color: '#222f3e',
-  },
-  subText: {
-    fontSize: 14,
-    color: '#576574',
-  },
-});

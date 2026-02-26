@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import SafeAreaViewExample from './examples/SafeAreaViewExample';
 import SafeAreaViewEdgesExample from './examples/SafeAreaViewEdgesExample';
 import HooksExample from './examples/HooksExample';
@@ -22,18 +22,24 @@ export default function App() {
   const ActiveComponent = EXAMPLES.find((e) => e.key === activeKey)!.component;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.tabBar}>
+    <View style={{ flex: 1 }}>
+      <View style={{ flexDirection: 'row', backgroundColor: '#222f3e' }}>
         {EXAMPLES.map((example) => (
           <Pressable
             key={example.key}
-            style={[styles.tab, activeKey === example.key && styles.activeTab]}
+            style={[
+              { flex: 1, paddingVertical: 12, alignItems: 'center' },
+              activeKey === example.key && {
+                borderBottomWidth: 3,
+                borderBottomColor: '#10ac84',
+              },
+            ]}
             onPress={() => setActiveKey(example.key)}
           >
             <Text
               style={[
-                styles.tabText,
-                activeKey === example.key && styles.activeTabText,
+                { fontSize: 14, fontWeight: '600', color: '#8395a7' },
+                activeKey === example.key && { color: '#ffffff' },
               ]}
             >
               {example.title}
@@ -41,39 +47,9 @@ export default function App() {
           </Pressable>
         ))}
       </View>
-      <View style={styles.content}>
+      <View style={{ flex: 1 }}>
         <ActiveComponent />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  tabBar: {
-    flexDirection: 'row',
-    backgroundColor: '#222f3e',
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  activeTab: {
-    borderBottomWidth: 3,
-    borderBottomColor: '#10ac84',
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#8395a7',
-  },
-  activeTabText: {
-    color: '#ffffff',
-  },
-  content: {
-    flex: 1,
-  },
-});
