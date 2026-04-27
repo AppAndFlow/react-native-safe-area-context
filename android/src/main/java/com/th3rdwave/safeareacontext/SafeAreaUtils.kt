@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import androidx.annotation.RequiresApi
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import java.lang.IllegalArgumentException
 import kotlin.math.max
 import kotlin.math.min
@@ -28,15 +30,31 @@ private fun getRootWindowInsetsCompatR(rootView: View): EdgeInsets? {
 @RequiresApi(Build.VERSION_CODES.M)
 @Suppress("DEPRECATION")
 private fun getRootWindowInsetsCompatM(rootView: View): EdgeInsets? {
+  // Use WindowInsetsCompat to reliably exclude IME (keyboard) insets on API 23-29.
+  // The deprecated min(systemWindowInsetBottom, stableInsetBottom) approach can
+  // incorrectly report keyboard height as the bottom inset on some Android 10
+  // devices (e.g. Samsung One UI, Nokia with stock Android), causing SafeAreaView
+  // to add paddingBottom equal to the keyboard height and push screen content up.
+  // WindowInsetsCompat.Type.navigationBars() explicitly excludes IME insets,
+  // matching the behaviour of getRootWindowInsetsCompatR on API 30+.
+  val windowInsetsCompat = ViewCompat.getRootWindowInsets(rootView)
+  if (windowInsetsCompat != null) {
+    val insets =
+        windowInsetsCompat.getInsets(
+            WindowInsetsCompat.Type.statusBars() or
+                WindowInsetsCompat.Type.displayCutout() or
+                WindowInsetsCompat.Type.navigationBars())
+    return EdgeInsets(
+        top = insets.top.toFloat(),
+        right = insets.right.toFloat(),
+        bottom = insets.bottom.toFloat(),
+        left = insets.left.toFloat())
+  }
+  // Fallback for cases where ViewCompat.getRootWindowInsets() is unavailable.
   val insets = rootView.rootWindowInsets ?: return null
   return EdgeInsets(
       top = insets.systemWindowInsetTop.toFloat(),
       right = insets.systemWindowInsetRight.toFloat(),
-      // System insets are more reliable to account for notches but the
-      // system inset for bottom includes the soft keyboard which we don't
-      // want to be consistent with iOS. Using the min value makes sure we
-      // never get the keyboard offset while still working with devices that
-      // hide the navigation bar.
       bottom = min(insets.systemWindowInsetBottom, insets.stableInsetBottom).toFloat(),
       left = insets.systemWindowInsetLeft.toFloat())
 }
