@@ -30,32 +30,24 @@ private fun getRootWindowInsetsCompatR(rootView: View): EdgeInsets? {
 @RequiresApi(Build.VERSION_CODES.M)
 @Suppress("DEPRECATION")
 private fun getRootWindowInsetsCompatM(rootView: View): EdgeInsets? {
-  // Use WindowInsetsCompat to reliably exclude IME (keyboard) insets on API 23-29.
+  val insets = rootView.rootWindowInsets ?: return null
+  // Use WindowInsetsCompat to calculate the bottom inset without keyboard height.
   // The deprecated min(systemWindowInsetBottom, stableInsetBottom) approach can
   // incorrectly report keyboard height as the bottom inset on some Android 10
   // devices (e.g. Samsung One UI, Nokia with stock Android), causing SafeAreaView
   // to add paddingBottom equal to the keyboard height and push screen content up.
-  // WindowInsetsCompat.Type.navigationBars() explicitly excludes IME insets,
-  // matching the behaviour of getRootWindowInsetsCompatR on API 30+.
-  val windowInsetsCompat = ViewCompat.getRootWindowInsets(rootView)
-  if (windowInsetsCompat != null) {
-    val insets =
-        windowInsetsCompat.getInsets(
-            WindowInsetsCompat.Type.statusBars() or
-                WindowInsetsCompat.Type.displayCutout() or
-                WindowInsetsCompat.Type.navigationBars())
-    return EdgeInsets(
-        top = insets.top.toFloat(),
-        right = insets.right.toFloat(),
-        bottom = insets.bottom.toFloat(),
-        left = insets.left.toFloat())
-  }
-  // Fallback for cases where ViewCompat.getRootWindowInsets() is unavailable.
-  val insets = rootView.rootWindowInsets ?: return null
+  // WindowInsetsCompat.Type.navigationBars() explicitly excludes IME insets.
+  val bottomInset =
+      ViewCompat.getRootWindowInsets(rootView)
+          ?.getInsets(
+              WindowInsetsCompat.Type.navigationBars() or WindowInsetsCompat.Type.displayCutout())
+          ?.bottom
+          ?.toFloat()
+          ?: min(insets.systemWindowInsetBottom, insets.stableInsetBottom).toFloat()
   return EdgeInsets(
       top = insets.systemWindowInsetTop.toFloat(),
       right = insets.systemWindowInsetRight.toFloat(),
-      bottom = min(insets.systemWindowInsetBottom, insets.stableInsetBottom).toFloat(),
+      bottom = bottomInset,
       left = insets.systemWindowInsetLeft.toFloat())
 }
 
