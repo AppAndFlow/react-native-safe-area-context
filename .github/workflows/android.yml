@@ -50,15 +50,7 @@ jobs:
         run: yarn install
         working-directory: example
       - name: Build android example app with new arch disabled
-        run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            # subst the workspace to a short drive to avoid Windows MAX_PATH
-            # in CMake-generated object file names from autolinked codegen.
-            MSYS_NO_PATHCONV=1 cmd /c 'subst W: "%GITHUB_WORKSPACE%" && cd /D W:\example\android && call gradlew.bat assembleDebug -PnewArchEnabled=false'
-          else
-            cd example/android
-            ./gradlew assembleDebug -PnewArchEnabled=false
-          fi
+        run: ./.github/scripts/build-android.sh false
   android-build-fabric:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -92,12 +84,4 @@ jobs:
         run: yarn install
         working-directory: example
       - name: Build android example app with new arch enabled
-        run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            # subst the workspace to a short drive to avoid Windows MAX_PATH
-            # in CMake-generated object file names from autolinked codegen.
-            MSYS_NO_PATHCONV=1 cmd /c 'subst W: "%GITHUB_WORKSPACE%" && cd /D W:\example\android && call gradlew.bat assembleDebug -PnewArchEnabled=true'
-          else
-            cd example/android
-            ./gradlew assembleDebug -PnewArchEnabled=true
-          fi
+        run: ./.github/scripts/build-android.sh true
