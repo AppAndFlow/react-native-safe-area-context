@@ -50,8 +50,16 @@ jobs:
         run: yarn install
         working-directory: example
       - name: Build android example app with new arch disabled
+        if: runner.os != 'Windows'
         run: ./gradlew assembleDebug -PnewArchEnabled=false
         working-directory: example/android
+      - name: Build android example app with new arch disabled (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          subst W: "%GITHUB_WORKSPACE%"
+          cd /D W:\example\android
+          call gradlew.bat assembleDebug -PnewArchEnabled=false
   android-build-fabric:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -85,5 +93,13 @@ jobs:
         run: yarn install
         working-directory: example
       - name: Build android example app with new arch enabled
+        if: runner.os != 'Windows'
         run: ./gradlew assembleDebug -PnewArchEnabled=true
         working-directory: example/android
+      - name: Build android example app with new arch enabled (Windows)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          subst W: "%GITHUB_WORKSPACE%"
+          cd /D W:\example\android
+          call gradlew.bat assembleDebug -PnewArchEnabled=true
