@@ -18,7 +18,14 @@ on:
 
 jobs:
   android-build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 20.x
@@ -46,7 +53,14 @@ jobs:
         run: ./gradlew assembleDebug -PnewArchEnabled=false
         working-directory: example/android
   android-build-fabric:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 20.x
