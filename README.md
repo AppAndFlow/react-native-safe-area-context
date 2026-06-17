@@ -1,4 +1,5 @@
-![safearea](https://github.com/user-attachments/assets/d951efe6-4d25-4ff6-b654-7aaf4519829b)
+<img width="3315" height="951" alt="safe" src="https://github.com/user-attachments/assets/24613a26-95da-4777-870e-f5c53c82da2a" />
+
 ### About
 App & Flow is a Montreal-based React Native engineering and consulting studio. We partner with the world’s top companies and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. team@appandflow.com
 
