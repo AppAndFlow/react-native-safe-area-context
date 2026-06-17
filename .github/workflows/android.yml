@@ -9,12 +9,20 @@ on:
       - 'android/**'
       - 'common/**'
       - 'example/android/**'
+      - 'example/package.json'
+      - 'example/yarn.lock'
+      - 'package.json'
+      - 'yarn.lock'
   pull_request:
     paths:
       - '.github/workflows/android.yml'
       - 'android/**'
       - 'common/**'
       - 'example/android/**'
+      - 'example/package.json'
+      - 'example/yarn.lock'
+      - 'package.json'
+      - 'yarn.lock'
 
 jobs:
   android-build:
