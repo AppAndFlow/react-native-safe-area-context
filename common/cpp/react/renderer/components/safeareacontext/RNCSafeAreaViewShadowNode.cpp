@@ -99,30 +99,27 @@ void RNCSafeAreaViewShadowNode::adjustLayoutWithState() {
       stateData.insets.bottom,
       bottom.value().unwrapOrDefault(0)));
 
-  yoga::Style adjustedStyle = getConcreteProps().yogaStyle;
+  auto &currentStyle = yogaNode_.style();
   if (props.mode == RNCSafeAreaViewMode::Padding) {
-    adjustedStyle.setPadding(Edge::Top, top);
-    adjustedStyle.setPadding(Edge::Left, left);
-    adjustedStyle.setPadding(Edge::Right, right);
-    adjustedStyle.setPadding(Edge::Bottom, bottom);
-  } else {
-    adjustedStyle.setMargin(Edge::Top, top);
-    adjustedStyle.setMargin(Edge::Left, left);
-    adjustedStyle.setMargin(Edge::Right, right);
-    adjustedStyle.setMargin(Edge::Bottom, bottom);
-  }
-
-  auto currentStyle = yogaNode_.style();
-  if (adjustedStyle.padding(Edge::Top) != currentStyle.padding(Edge::Top) ||
-      adjustedStyle.padding(Edge::Left) != currentStyle.padding(Edge::Left) ||
-      adjustedStyle.padding(Edge::Right) != currentStyle.padding(Edge::Right) ||
-      adjustedStyle.padding(Edge::Bottom) !=
-          currentStyle.padding(Edge::Bottom) ||
-      adjustedStyle.margin(Edge::Top) != currentStyle.margin(Edge::Top) ||
-      adjustedStyle.margin(Edge::Left) != currentStyle.margin(Edge::Left) ||
-      adjustedStyle.margin(Edge::Right) != currentStyle.margin(Edge::Right) ||
-      adjustedStyle.margin(Edge::Bottom) != currentStyle.margin(Edge::Bottom)) {
-    yogaNode_.setStyle(adjustedStyle);
+    if (currentStyle.padding(Edge::Top) != top ||
+        currentStyle.padding(Edge::Left) != left ||
+        currentStyle.padding(Edge::Right) != right ||
+        currentStyle.padding(Edge::Bottom) != bottom) {
+      currentStyle.setPadding(Edge::Top, top);
+      currentStyle.setPadding(Edge::Left, left);
+      currentStyle.setPadding(Edge::Right, right);
+      currentStyle.setPadding(Edge::Bottom, bottom);
+      yogaNode_.setDirty(true);
+    }
+  } else if (
+      currentStyle.margin(Edge::Top) != top ||
+      currentStyle.margin(Edge::Left) != left ||
+      currentStyle.margin(Edge::Right) != right ||
+      currentStyle.margin(Edge::Bottom) != bottom) {
+    currentStyle.setMargin(Edge::Top, top);
+    currentStyle.setMargin(Edge::Left, left);
+    currentStyle.setMargin(Edge::Right, right);
+    currentStyle.setMargin(Edge::Bottom, bottom);
     yogaNode_.setDirty(true);
   }
 }
