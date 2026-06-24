@@ -42,15 +42,5 @@ allprojects {
     }
 }
 
-subprojects { subproject ->
-    subproject.plugins.withId("com.android.application") {
-        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            subproject.android.defaultConfig.externalNativeBuild.cmake.arguments(
-                "-DCMAKE_OBJECT_PATH_MAX=128"
-            )
-        }
-    }
-}
-
 rootProject.ext.set("react.compileSdkVersion", 36)
 rootProject.ext.set("react.targetSdkVersion", 36)
