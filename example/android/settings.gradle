@@ -19,3 +19,11 @@ apply(from: {
     throw new GradleException("Could not find `react-native-test-app`");
 }())
 applyTestAppSettings(settings)
+
+if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+    def shortTestAppAndroidDir = file("../r")
+    if (shortTestAppAndroidDir.exists()) {
+        project(":app").projectDir = file("${shortTestAppAndroidDir}/android/app")
+        project(":support").projectDir = file("${shortTestAppAndroidDir}/android/support")
+    }
+}
