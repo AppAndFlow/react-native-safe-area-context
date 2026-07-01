@@ -93,6 +93,12 @@ using namespace facebook::react;
 
 - (void)updateStateIfNecessary
 {
+  // A view detached from the window (e.g. a screen covered by a react-native-screens
+  // native stack) reports zero safeAreaInsets, which would commit a zero-inset layout
+  // for the hidden screen.
+  if (self.window == nil) {
+    return;
+  }
   if (_providerView == nil) {
     return;
   }
